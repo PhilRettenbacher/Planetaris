@@ -8,10 +8,10 @@ namespace HonzCore.ECS.Component
 {
     class TestComponent : Component
     {
-        public override void Update()
+        public override void OnCreate()
         {
-            base.Update();
-            Console.WriteLine("Update");
+            base.OnCreate();
+            Console.WriteLine("Start");
         }
     }
 }

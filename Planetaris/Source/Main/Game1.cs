@@ -32,11 +32,12 @@ namespace Planetaris
         protected override void Initialize()
         {
             scene = new Scene();
+
+            scene.Activate();
             gm1 = new GameObject();
-            gm1.AddToScene(scene);
+            gm1.SetParent(scene.root);
             HonzCore.ECS.Component.TestComponent comp = new HonzCore.ECS.Component.TestComponent();
             gm1.AddComponent(comp);
-
             base.Initialize();
         }
 

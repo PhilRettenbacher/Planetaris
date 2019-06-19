@@ -15,6 +15,7 @@ namespace HonzCore.ECS
         {
             root = new GameObject();
             root.isRoot = true;
+            root.isInScene = true;
         }
 
         public void Update()
@@ -24,6 +25,15 @@ namespace HonzCore.ECS
         public void Draw()
         {
             root.Draw();
+        }
+
+        public void Activate()
+        {
+            root.CallCreate();
+        }
+        public void Deactivate()
+        {
+
         }
 
         public void Destroy()
