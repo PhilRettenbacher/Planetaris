@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using HonzCore.ECS;
+
 namespace Planetaris
 {
     /// <summary>
@@ -11,6 +13,9 @@ namespace Planetaris
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        Scene scene;
+        GameObject gm1;
 
         public Game1()
         {
@@ -26,7 +31,11 @@ namespace Planetaris
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            scene = new Scene();
+            gm1 = new GameObject();
+            gm1.AddToScene(scene);
+            HonzCore.ECS.Component.TestComponent comp = new HonzCore.ECS.Component.TestComponent();
+            gm1.AddComponent(comp);
 
             base.Initialize();
         }
@@ -62,7 +71,7 @@ namespace Planetaris
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            scene.Update();
 
             base.Update(gameTime);
         }
@@ -75,7 +84,7 @@ namespace Planetaris
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            
+            scene.Draw();
 
             base.Draw(gameTime);
         }
