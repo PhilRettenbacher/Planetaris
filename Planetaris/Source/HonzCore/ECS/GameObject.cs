@@ -37,7 +37,7 @@ namespace HonzCore.ECS
         public void AddComponent(Component.Component comp)
         {
             components.Add(comp);
-            if (!comp.isCreated)
+            if (isCreated)
                 comp.CallCreate();
         }
         public void RemoveComponent(Component.Component comp)
