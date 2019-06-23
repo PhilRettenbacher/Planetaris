@@ -9,7 +9,14 @@ namespace HonzCore.ECS
     public class Scene
     {
         public GameObject root;
-        public bool isActiveScene;
+
+        public bool isActiveScene
+        {
+            get
+            {
+                return HonzCore.Helpers.ApplicationHelper.instance.activeScene == this;
+            }
+        }
 
         public Scene ()
         {
@@ -20,11 +27,13 @@ namespace HonzCore.ECS
 
         public void Update()
         {
-            root.Update();
+            if(isActiveScene)
+                root.Update();
         }
         public void Draw()
         {
-            root.Draw();
+            if(isActiveScene)
+                root.Draw();
         }
 
         public void Activate()
