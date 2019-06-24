@@ -8,6 +8,12 @@ namespace HonzCore.ECS.Component
 {
     class TestComponent : Component
     {
+        public override Component Clone()
+        {
+            Console.WriteLine("Clone");
+            return new TestComponent();
+        }
+
         public override void OnCreate()
         {
             base.OnCreate();

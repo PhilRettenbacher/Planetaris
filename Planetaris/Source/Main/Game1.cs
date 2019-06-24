@@ -47,6 +47,9 @@ namespace Planetaris
             HonzCore.ECS.Component.TestComponent comp = new HonzCore.ECS.Component.TestComponent();
             gm1.AddComponent(comp);
 
+            GameObject gm2 = gm1.Clone();
+            gm2.SetParent(gm1);
+
             HonzCore.Helpers.ApplicationHelper.instance.LoadScene(scene);
 
             base.Initialize();

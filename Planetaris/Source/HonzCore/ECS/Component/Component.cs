@@ -61,6 +61,8 @@ namespace HonzCore.ECS.Component
 
         }
 
+        public abstract Component Clone();
+
         ~Component()
         {
             if (!isDestroyed)

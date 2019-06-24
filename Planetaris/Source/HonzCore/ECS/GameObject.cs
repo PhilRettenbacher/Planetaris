@@ -11,7 +11,7 @@ namespace HonzCore.ECS
         public Transform transform;
 
         public bool isCreated;
-        public bool enabled;
+        public bool isEnabled;
         public bool isDestroyed;
         public bool isRoot;
 
@@ -56,13 +56,13 @@ namespace HonzCore.ECS
 
         public void Update()
         {
-            if (!enabled)
+            if (!isEnabled)
                 return;
             LoopThroughComponentsAndChildren((comp) => comp.Update(), (gm) => gm.Update());
         }
         public void Draw()
         {
-            if (!enabled)
+            if (!isEnabled)
                 return;
             LoopThroughComponentsAndChildren((comp) => comp.Draw(), (gm) => gm.Draw());
         }
@@ -72,8 +72,7 @@ namespace HonzCore.ECS
         {
             if(isRoot)
             {
-                Console.WriteLine("The root can't have a parent!");
-                return;
+                throw new InvalidOperationException("Can't set the parent of a root Object!");
             }
             if(this.parent != null)
             {
@@ -171,6 +170,31 @@ namespace HonzCore.ECS
                 _copiedChildren = children.ToArray();
                 requireChildrenUpdate = false;
             }
+        }
+
+        public GameObject Clone()
+        {
+            if(isDestroyed)
+            {
+                throw new InvalidOperationException("Can't copy a destroyed Object!");
+            }
+            if(isRoot)
+            {
+                throw new InvalidOperationException("Can't copy a root Object!");
+            }
+            GameObject newGm = new GameObject();
+
+            newGm.isEnabled = isEnabled;
+
+            foreach(var comp in components)
+            {
+                newGm.AddComponent(comp.Clone());
+            }
+            foreach(var child in children)
+            {
+                child.Clone().SetParent(newGm);
+            }
+            return newGm;
         }
 
         ~GameObject()
