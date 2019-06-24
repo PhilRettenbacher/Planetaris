@@ -17,6 +17,8 @@ namespace Planetaris
         Scene scene;
         GameObject gm1;
 
+        HonzCore.Helpers.IHelper[] helpers;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -31,13 +33,22 @@ namespace Planetaris
         /// </summary>
         protected override void Initialize()
         {
+            helpers = new HonzCore.Helpers.IHelper[] { HonzCore.Helpers.ApplicationHelper.instance };
+
+            foreach(var h in helpers)
+            {
+                h.Initialize();
+            }
+
             scene = new Scene();
 
-            scene.Activate();
             gm1 = new GameObject();
             gm1.SetParent(scene.root);
             HonzCore.ECS.Component.TestComponent comp = new HonzCore.ECS.Component.TestComponent();
             gm1.AddComponent(comp);
+
+            HonzCore.Helpers.ApplicationHelper.instance.LoadScene(scene);
+
             base.Initialize();
         }
 
@@ -72,7 +83,10 @@ namespace Planetaris
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            scene.Update();
+            foreach(var h in helpers)
+            {
+                h.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -84,8 +98,11 @@ namespace Planetaris
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            scene.Draw();
+            
+            foreach(var h in helpers)
+            {
+                h.Draw(gameTime);
+            }
 
             base.Draw(gameTime);
         }

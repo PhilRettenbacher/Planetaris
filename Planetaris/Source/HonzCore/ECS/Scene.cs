@@ -14,7 +14,7 @@ namespace HonzCore.ECS
         {
             get
             {
-                return HonzCore.Helpers.ApplicationHelper.instance.activeScene == this;
+                return Helpers.ApplicationHelper.instance.activeScene == this;
             }
         }
 
@@ -27,12 +27,12 @@ namespace HonzCore.ECS
 
         public void Update()
         {
-            if(isActiveScene)
+            if (isActiveScene)
                 root.Update();
         }
         public void Draw()
         {
-            if(isActiveScene)
+            if (isActiveScene)
                 root.Draw();
         }
 

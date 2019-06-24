@@ -13,5 +13,10 @@ namespace HonzCore.ECS.Component
             base.OnCreate();
             Console.WriteLine("Start");
         }
+        public override void Update()
+        {
+            base.Update();
+            Console.WriteLine("Update");
+        }
     }
 }

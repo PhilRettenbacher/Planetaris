@@ -52,6 +52,14 @@ namespace HonzCore.ECS.Component
         {
 
         }
+        public virtual void OnAddToScene()
+        {
+
+        }
+        public virtual void OnRemoveFromScene()
+        {
+
+        }
 
         ~Component()
         {
