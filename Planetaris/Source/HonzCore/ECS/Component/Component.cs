@@ -8,15 +8,21 @@ namespace HonzCore.ECS.Component
 {
     public abstract class Component
     {
-        public bool isEnabled;
+        public bool isEnabled
+        {
+            get => _isEnabled;
+            set { _isEnabled = value; if (value) OnEnable(); else OnDisable(); }
+        }
+        
         public bool isDestroyed;
-
         public bool isCreated;
+
+        private bool _isEnabled;
 
         public void Destroy()
         {
-            OnDestroy();
             isDestroyed = true;
+            OnDestroy();      
         }
 
         public void CallCreate()

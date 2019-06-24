@@ -12,8 +12,10 @@ namespace HonzCore.ECS
 
         public bool isCreated;
         public bool isEnabled;
+
         public bool isDestroyed;
         public bool isRoot;
+
 
         public bool isInScene;
         public bool isInActiveScene
@@ -67,7 +69,6 @@ namespace HonzCore.ECS
             LoopThroughComponentsAndChildren((comp) => comp.Draw(), (gm) => gm.Draw());
         }
 
-
         public void SetParent(GameObject parent)
         {
             if(isRoot)
@@ -110,16 +111,16 @@ namespace HonzCore.ECS
             }
         }
 
-        public void OnAddToScene()
+        private void OnAddToScene()
         {
             LoopThroughComponentsAndChildren((comp) => comp.OnAddToScene(), (gm) => gm.OnAddToScene());
         }
-        public void OnRemoveFromScene()
+        private void OnRemoveFromScene()
         {
             LoopThroughComponentsAndChildren((comp) => comp.OnRemoveFromScene(), (gm) => gm.OnRemoveFromScene());
         }
 
-        public void CallCreate()
+        internal void CallCreate()
         {
             if(isCreated)
             {
