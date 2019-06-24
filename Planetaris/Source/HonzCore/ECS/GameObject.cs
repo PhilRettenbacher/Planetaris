@@ -17,9 +17,10 @@ namespace HonzCore.ECS
 
         public bool isInScene;
         public bool isInActiveScene
-        { get
+        {
+            get
             {
-                return true; //TODO 
+                return parentScene == HonzCore.Helpers.ApplicationHelper.instance.activeScene;
             }
         }
 
@@ -71,6 +72,11 @@ namespace HonzCore.ECS
 
         public void SetParent(GameObject parent)
         {
+            if(isRoot)
+            {
+                Console.WriteLine("The root can't have a parent!");
+                return;
+            }
             if(this.parent != null)
             {
                 this.parent.children.Remove(this);
@@ -107,11 +113,25 @@ namespace HonzCore.ECS
 
         public void OnAddToScene()
         {
-            //TODO Implement Logic
+            foreach(var comp in components)
+            {
+                comp.OnAddToScene();
+            }
+            foreach(var child in children)
+            {
+                child.OnAddToScene();
+            }
         }
         public void OnRemoveFromScene()
         {
-            //TODO Implement Logic
+            foreach (var comp in components)
+            {
+                comp.OnRemoveFromScene();
+            }
+            foreach (var child in children)
+            {
+                child.OnRemoveFromScene();
+            }
         }
 
         public void CallCreate()
