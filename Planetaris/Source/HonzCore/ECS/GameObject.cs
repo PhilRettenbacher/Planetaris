@@ -151,7 +151,6 @@ namespace HonzCore.ECS
         {
             if (!isDestroyed)
                 Destroy();
-
         }
     }
 }

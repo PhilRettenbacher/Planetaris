@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HonzCore.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace HonzCore.ECS
     public class Scene
     {
         public GameObject root;
+		//Master UIEntity for this Scene.
+		public UIEntity uiSystem;
 
         public bool isActiveScene
         {
@@ -23,22 +26,33 @@ namespace HonzCore.ECS
             root = new GameObject();
             root.isRoot = true;
             root.isInScene = true;
-        }
+
+			uiSystem = new UIEntity();
+			uiSystem.IsRoot = true;
+			root.isInScene = true;
+		}
 
         public void Update()
         {
             if(isActiveScene)
+			{
                 root.Update();
+				uiSystem.Update();
+			}
         }
         public void Draw()
         {
             if(isActiveScene)
+			{
                 root.Draw();
+				uiSystem.Draw();
+			}
         }
 
         public void Activate()
         {
             root.CallCreate();
+			uiSystem.CallCreate();
         }
         public void Deactivate()
         {
