@@ -27,7 +27,13 @@ namespace HonzCore.ECS
         public Scene parentScene;
 
         private List<Component.Component> components = new List<Component.Component>();
+        private Component.Component[] _copiedComponents;
+        private bool requireComponentUpdate = true;
+
         private List<GameObject> children = new List<GameObject>();
+        private GameObject[] _copiedChildren;
+        private bool requireChildrenUpdate = true;
+
         private GameObject parent;
 
         public GameObject()
@@ -40,33 +46,25 @@ namespace HonzCore.ECS
             components.Add(comp);
             if (isCreated)
                 comp.CallCreate();
+            requireComponentUpdate = true;
         }
         public void RemoveComponent(Component.Component comp)
         {
             components.Remove(comp);
+            requireComponentUpdate = true;
         }
 
         public void Update()
         {
-            foreach(Component.Component comp in components)
-            {
-                comp.Update();
-            }
-            foreach (GameObject child in children)
-            {
-                child.Update();
-            }
+            if (!enabled)
+                return;
+            LoopThroughComponentsAndChildren((comp) => comp.Update(), (gm) => gm.Update());
         }
         public void Draw()
         {
-            foreach (Component.Component comp in components)
-            {
-                comp.Draw();
-            }
-            foreach(GameObject child in children)
-            {
-                child.Draw();
-            }
+            if (!enabled)
+                return;
+            LoopThroughComponentsAndChildren((comp) => comp.Draw(), (gm) => gm.Draw());
         }
 
 
@@ -82,6 +80,7 @@ namespace HonzCore.ECS
                 this.parent.children.Remove(this);
                 this.parent.transform.children.Remove(transform);
                 parentScene = null;
+                this.parent.requireChildrenUpdate = true;
             }
             this.parent = parent;
             transform.parent = parent != null ? parent.transform : null;
@@ -90,6 +89,7 @@ namespace HonzCore.ECS
                 this.parent.children.Add(this);
                 this.parent.transform.children.Add(transform);
                 parentScene = this.parent.parentScene;
+                this.parent.requireChildrenUpdate = true;
             }
 
             if(!isCreated && parent != null && parent.isCreated && isInActiveScene)
@@ -113,25 +113,11 @@ namespace HonzCore.ECS
 
         public void OnAddToScene()
         {
-            foreach(var comp in components)
-            {
-                comp.OnAddToScene();
-            }
-            foreach(var child in children)
-            {
-                child.OnAddToScene();
-            }
+            LoopThroughComponentsAndChildren((comp) => comp.OnAddToScene(), (gm) => gm.OnAddToScene());
         }
         public void OnRemoveFromScene()
         {
-            foreach (var comp in components)
-            {
-                comp.OnRemoveFromScene();
-            }
-            foreach (var child in children)
-            {
-                child.OnRemoveFromScene();
-            }
+            LoopThroughComponentsAndChildren((comp) => comp.OnRemoveFromScene(), (gm) => gm.OnRemoveFromScene());
         }
 
         public void CallCreate()
@@ -141,15 +127,7 @@ namespace HonzCore.ECS
                 return;
             }
 
-            foreach(Component.Component comp in components)
-            {
-                comp.CallCreate();
-            }
-
-            foreach(GameObject child in children)
-            {
-                child.CallCreate();
-            }
+            LoopThroughComponentsAndChildren((comp) => comp.CallCreate(), (gm) => gm.CallCreate());
 
             isCreated = true;
         }
@@ -157,13 +135,41 @@ namespace HonzCore.ECS
         public void Destroy()
         {
             isDestroyed = true;
-            foreach(Component.Component comp in components)
+            LoopThroughComponentsAndChildren((comp) => comp.Destroy(), (gm) => gm.Destroy(), false);
+        }
+
+        private void LoopThroughComponentsAndChildren(Action<Component.Component> compAction, Action<GameObject> childAction, bool returnOnDestroy = true)
+        {
+            UpdateCopiedComponentAndChildrenLists();
+            foreach (Component.Component comp in _copiedComponents)
             {
-                comp.Destroy();
+                compAction(comp);
+                if (isDestroyed && returnOnDestroy)
+                {
+                    return;
+                }
             }
-            foreach(GameObject child in children)
+            UpdateCopiedComponentAndChildrenLists();
+            foreach (GameObject child in _copiedChildren)
             {
-                child.Destroy();
+                childAction(child);
+                if (isDestroyed && returnOnDestroy)
+                {
+                    return;
+                }
+            }
+        }
+        private void UpdateCopiedComponentAndChildrenLists()
+        {
+            if(requireComponentUpdate)
+            {
+                _copiedComponents = components.ToArray();
+                requireComponentUpdate = false;
+            }
+            if(requireChildrenUpdate)
+            {
+                _copiedChildren = children.ToArray();
+                requireChildrenUpdate = false;
             }
         }
 
