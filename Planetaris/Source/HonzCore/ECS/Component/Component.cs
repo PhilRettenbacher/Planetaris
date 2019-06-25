@@ -17,11 +17,23 @@ namespace HonzCore.ECS.Component
         public bool isDestroyed;
         public bool isCreated;
 
+        public GameObject gameObject
+        {
+            get
+            {
+                return _gameObject;
+            }
+        }
+        private GameObject _gameObject;
+
         private bool _isEnabled;
 
         public void Destroy()
         {
+
             isDestroyed = true;
+            isEnabled = false;
+            SetParent(null);
             OnDestroy();      
         }
 
@@ -33,7 +45,14 @@ namespace HonzCore.ECS.Component
                 OnCreate();
             }
         }
-
+        internal void SetParent(GameObject gameObject)
+        {
+            _gameObject = gameObject;
+            if (gameObject == null)
+                OnRemoveFromParent();
+            else
+                OnAddToParent();
+        }
         public virtual void Update()
         {
 
@@ -63,6 +82,14 @@ namespace HonzCore.ECS.Component
 
         }
         public virtual void OnRemoveFromScene()
+        {
+
+        }
+        public virtual void OnAddToParent()
+        {
+
+        }
+        public virtual void OnRemoveFromParent()
         {
 
         }

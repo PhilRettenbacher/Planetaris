@@ -24,5 +24,20 @@ namespace HonzCore.ECS.Component
             base.Update();
             Console.WriteLine("Update");
         }
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            Console.WriteLine("Enabled");
+        }
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            Console.WriteLine("Disabled");
+        }
+        public override void OnRemoveFromParent()
+        {
+            base.OnRemoveFromParent();
+            Console.WriteLine("Removed from Parent");
+        }
     }
 }

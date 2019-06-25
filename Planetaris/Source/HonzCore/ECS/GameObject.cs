@@ -16,6 +16,7 @@ namespace HonzCore.ECS
         public bool isDestroyed;
         public bool isRoot;
 
+        public string name;
 
         public bool isInScene;
         public bool isInActiveScene
@@ -38,13 +39,19 @@ namespace HonzCore.ECS
 
         private GameObject parent;
 
-        public GameObject()
+        public GameObject(string name = null)
         {
+            this.name = name ?? "GameObject";
             transform = new Transform();
         }
 
         public void AddComponent(Component.Component comp)
         {
+            if(comp.gameObject != null)
+            {
+                throw new InvalidOperationException("Can't add a Component to 2 GameObjects");
+            }
+            comp.SetParent(this);
             components.Add(comp);
             if (isCreated)
                 comp.CallCreate();
@@ -52,6 +59,7 @@ namespace HonzCore.ECS
         }
         public void RemoveComponent(Component.Component comp)
         {
+            comp.SetParent(null);
             components.Remove(comp);
             requireComponentUpdate = true;
         }
@@ -134,7 +142,10 @@ namespace HonzCore.ECS
 
         public void Destroy()
         {
+            if(!isRoot)
+                SetParent(null);
             isDestroyed = true;
+            isEnabled = false;
             LoopThroughComponentsAndChildren((comp) => comp.Destroy(), (gm) => gm.Destroy(), false);
         }
 

@@ -49,9 +49,8 @@ namespace Planetaris
 
             GameObject gm2 = gm1.Clone();
             gm2.SetParent(gm1);
-
             HonzCore.Helpers.ApplicationHelper.instance.LoadScene(scene);
-
+            gm1.Destroy();
             base.Initialize();
         }
 
