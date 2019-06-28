@@ -10,15 +10,17 @@ namespace HonzCore.ECS
     {
         public Transform transform;
 
-        public bool isCreated;
-        public bool isEnabled = true;
+        private bool isCreated;
+        public bool isEnabled { get => _isEnabled; set => _isEnabled = value; }
 
-        public bool isDestroyed;
-        public bool isRoot;
+        private bool _isEnabled = true;
+
+        internal bool isDestroyed;
+        internal bool isRoot;
 
         public string name;
 
-        public bool isInScene;
+        public bool isInScene { get; internal set; }
         public bool isInActiveScene
         {
             get
@@ -27,7 +29,7 @@ namespace HonzCore.ECS
             }
         }
 
-        public Scene parentScene;
+        public Scene parentScene { get; private set; }
 
         private List<Component.Component> components = new List<Component.Component>();
         private Component.Component[] _copiedComponents;

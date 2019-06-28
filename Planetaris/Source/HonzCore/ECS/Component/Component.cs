@@ -14,17 +14,11 @@ namespace HonzCore.ECS.Component
             set { _isEnabled = value; if (value) OnEnable(); else OnDisable(); }
         }
         
-        public bool isDestroyed;
-        public bool isCreated;
+        internal bool isDestroyed;
+        internal bool isCreated;
 
-        public GameObject gameObject
-        {
-            get
-            {
-                return _gameObject;
-            }
-        }
-        private GameObject _gameObject;
+        public GameObject gameObject { get; private set; }
+
 
         private bool _isEnabled = true;
 
@@ -47,7 +41,7 @@ namespace HonzCore.ECS.Component
         }
         internal void SetParent(GameObject gameObject)
         {
-            _gameObject = gameObject;
+            this.gameObject = gameObject;
             if (gameObject == null)
                 OnRemoveFromParent();
             else

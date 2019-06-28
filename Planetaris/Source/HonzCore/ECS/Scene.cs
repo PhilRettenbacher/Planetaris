@@ -9,9 +9,9 @@ namespace HonzCore.ECS
 {
     public class Scene
     {
-        public GameObject root;
+        public GameObject root { get; private set; }
 		//Master UIEntity for this Scene.
-		public UIEntity uiSystem;
+		public UIEntity uiSystem { get; private set; }
 
         public bool isActiveScene
         {
