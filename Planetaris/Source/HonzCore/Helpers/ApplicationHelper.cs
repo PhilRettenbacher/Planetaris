@@ -23,6 +23,10 @@ namespace HonzCore.Helpers
                 return _instance;
             }
         }
+        private ApplicationHelper()
+        {
+
+        }
 
         public Scene activeScene
         {
