@@ -26,7 +26,7 @@ namespace HonzCore.ECS.Component
         }
         private GameObject _gameObject;
 
-        private bool _isEnabled;
+        private bool _isEnabled = true;
 
         public void Destroy()
         {

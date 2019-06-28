@@ -11,7 +11,7 @@ namespace HonzCore.ECS
         public Transform transform;
 
         public bool isCreated;
-        public bool isEnabled;
+        public bool isEnabled = true;
 
         public bool isDestroyed;
         public bool isRoot;
@@ -184,7 +184,27 @@ namespace HonzCore.ECS
             }
         }
 
-        public GameObject Clone()
+        public GameObject FindChildren(string name, bool recursive = false, bool requireEnabled = false)
+        {
+            if (isDestroyed || (requireEnabled && !isEnabled))
+                return null;
+            foreach(var child in children)
+            {
+                if (child.isDestroyed || (requireEnabled && !child.isEnabled))
+                    return null;
+                if (child.name == name)
+                    return child;
+                if(recursive)
+                {
+                    GameObject gm = child.FindChildren(name, recursive, requireEnabled);
+                    if (gm != null)
+                        return gm;
+                }
+            }
+            return null;
+        }
+
+        public GameObject Clone(string name = null)
         {
             if(isDestroyed)
             {
@@ -197,6 +217,7 @@ namespace HonzCore.ECS
             GameObject newGm = new GameObject();
 
             newGm.isEnabled = isEnabled;
+            newGm.name = name ?? this.name;
 
             foreach(var comp in components)
             {
@@ -214,5 +235,7 @@ namespace HonzCore.ECS
             if (!isDestroyed)
                 Destroy();
         }
+
+
     }
 }

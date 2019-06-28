@@ -64,6 +64,11 @@ namespace HonzCore.ECS
 
         }
 
+        public GameObject FindGameObject(string name, bool recursive = false, bool requireEnabled = false)
+        {
+            return root.FindChildren(name, recursive, requireEnabled);
+        }
+
         ~Scene()
         {
 
