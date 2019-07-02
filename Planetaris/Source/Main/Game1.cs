@@ -33,7 +33,7 @@ namespace Planetaris
         /// </summary>
         protected override void Initialize()
         {
-            helpers = new HonzCore.Helpers.IHelper[] { HonzCore.Helpers.ApplicationHelper.instance };
+            helpers = new HonzCore.Helpers.IHelper[] { HonzCore.Helpers.ApplicationHelper.instance, HonzCore.Helpers.InputHelper.instance};
 
             foreach(var h in helpers)
             {
