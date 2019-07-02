@@ -53,11 +53,11 @@ namespace HonzCore.Helpers
         }
         public void Draw(GameTime time)
         {
-
+            activeScene.Draw();
         }
         public void Update(GameTime time)
         {
-
+            activeScene.Update();
         }
     }
 }

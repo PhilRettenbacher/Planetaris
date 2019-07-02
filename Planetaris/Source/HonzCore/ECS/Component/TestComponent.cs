@@ -22,7 +22,7 @@ namespace HonzCore.ECS.Component
         public override void Update()
         {
             base.Update();
-            Console.WriteLine("Update");
+            Console.WriteLine("DeltaTime: " + Helpers.TimeHelper.instance.deltaTimeUpdate);
         }
         public override void OnEnable()
         {

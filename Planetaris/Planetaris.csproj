@@ -50,6 +50,7 @@
     <Compile Include="Source\HonzCore\Helpers\BlueprintHelper.cs" />
     <Compile Include="Source\HonzCore\Helpers\IHelper.cs" />
     <Compile Include="Source\HonzCore\Helpers\InputHelper.cs" />
+    <Compile Include="Source\HonzCore\Helpers\TimeHelper.cs" />
     <Compile Include="Source\HonzCore\UI\UIEntity.cs" />
     <Compile Include="Source\Main\Game1.cs" />
     <Compile Include="Program.cs" />
