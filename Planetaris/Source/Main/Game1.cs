@@ -33,7 +33,7 @@ namespace Planetaris
         /// </summary>
         protected override void Initialize()
         {
-            helpers = new HonzCore.Helpers.IHelper[] { HonzCore.Helpers.ApplicationHelper.instance, HonzCore.Helpers.InputHelper.instance};
+            helpers = new HonzCore.Helpers.IHelper[] { HonzCore.Helpers.ApplicationHelper.instance, HonzCore.Helpers.InputHelper.instance, HonzCore.Helpers.BlueprintHelper.instance};
 
             foreach(var h in helpers)
             {
@@ -51,6 +51,9 @@ namespace Planetaris
             gm2.SetParent(gm1);
             HonzCore.Helpers.ApplicationHelper.instance.LoadScene(scene);
             System.Console.WriteLine(scene.root.FindChildren("Hannes", recursive: true, requireEnabled: true));
+
+            HonzCore.Helpers.BlueprintHelper.instance.RegisterBlueprint(gm2, "TestBlueprint");
+            HonzCore.Helpers.BlueprintHelper.instance.CreateBlueprint("TestBlueprint", gm2);
 
             gm1.Destroy();
             

@@ -47,6 +47,7 @@
     <Compile Include="Source\HonzCore\ECS\Scene.cs" />
     <Compile Include="Source\HonzCore\ECS\Transform.cs" />
     <Compile Include="Source\HonzCore\Helpers\ApplicationHelper.cs" />
+    <Compile Include="Source\HonzCore\Helpers\BlueprintHelper.cs" />
     <Compile Include="Source\HonzCore\Helpers\IHelper.cs" />
     <Compile Include="Source\HonzCore\Helpers\InputHelper.cs" />
     <Compile Include="Source\HonzCore\UI\UIEntity.cs" />
